@@ -2,7 +2,7 @@ resource "null_resource" "simulate_workload" {
   count = 60
 
   provisioner "local-exec" {
-    command = "sleep 5"
+    command = "sleep 60"
   }
 }
 

@@ -1,15 +1,17 @@
-resource "null_resource" "print_env" {
-  provisioner "local-exec" {
-    command = "env"
-  }
+provider "aws" {
+  region = "ap-southeast-2"
 }
 
-resource "null_resource" "simulate_workload" {
-  provisioner "local-exec" {
-    command = "sleep 3600"
-  }
+data "aws_s3_bucket" "bucket" {
+  bucket = "20240906"
 }
 
-#output "simulation_complete" {
-#  value = "Done simulating ${length(null_resource.simulate_workload)} resources!"
-#}
+output "bucket_details" {
+  value = {
+    name                      = data.aws_s3_bucket.bucket.id
+    region                    = data.aws_s3_bucket.bucket.region
+    arn                       = data.aws_s3_bucket.bucket.arn
+    bucket_domain_name        = data.aws_s3_bucket.bucket.bucket_domain_name
+    bucket_regional_domain_name = data.aws_s3_bucket.bucket.bucket_regional_domain_name
+  }
+}
